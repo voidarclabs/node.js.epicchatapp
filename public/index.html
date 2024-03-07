@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>epic chat app</title>
+</head>
+<body>
+    <div id="maincontainer">
+        <div id="sidebar"></div>
+        <div id="mainchat">
+            <div id="chatwindow"></div>
+            <div id="chatbox">
+                <form id="messageForm" onsubmit="handleSubmit(event)">
+                    <input type="text" id="messageTextbox" name="messageTextbox" required>
+                    <button type="submit">Submit</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+    <script src="chat.js"></script>
+</body>
+</html>

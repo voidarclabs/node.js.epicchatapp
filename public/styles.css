@@ -1,0 +1,31 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    min-height: 100vh;
+    background-color: #36263b;
+}
+
+#maincontainer {
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+#sidebar {
+    background-color: red;
+}
+
+#mainchat {
+    background-color: blue;
+    display: grid;
+    grid-template-rows: 92% 8% ;
+}
+
+#chatwindow {
+    background-color: yellow;
+}
+
+#chatbox {
+    background-color: green;
+}
