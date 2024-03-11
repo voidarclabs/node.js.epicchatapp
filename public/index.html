@@ -2,19 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/ea3f46344d.js" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Varela Round' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>epic chat app</title>
 </head>
 <body>
     <div id="maincontainer">
         <div id="sidebar">
-            <div id="options"></div>
+            <div id="options">
+                <div id="option-add" class="option">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <div id="option-join" class="option">
+                    <i class="fa-solid fa-link"></i>
+                </div>
+                <div id="option-remove" class="option">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+                <div id="option-settings" class="option">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+            </div>
             <div id="chats"></div>
         </div>
         <div id="mainchat">
-            <div id="chatwindow"></div>
+            <div id="chatwindow">
+            </div>
             <div id="chatbox">
                 <form id="messageForm" onsubmit="handleSubmit(event)">
                     <input type="text" id="messageTextbox" name="messageTextbox" required>

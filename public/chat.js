@@ -14,7 +14,38 @@ socket.on('handshake', (clientidrecieved, callback) => {
 })
 
 socket.on('messageincoming', (data) => {
-  console.log(data)
+  let user = data[0]
+  let message = data[1]
+  let timecode = new Date().toLocaleTimeString()
+
+  if (user == clientid) {
+    let isself = 'self'
+    let messagehtml = `
+    <div id='messageoverlapper'>
+      <div id="messagecontainer" class='${isself}'>
+        <div id="user" class="subtext">${user}</div>
+        <div id="mainmessage" class="maintext">${message}</div>
+        <div id="timecode" class="subtext">${timecode}</div>
+      </div>
+    </div>
+    `
+
+    addtomessages(messagehtml)
+  } else {
+    let isself = 'notself'
+    let messagehtml = `
+    <div id='messageoverlapper'>
+      <div id="messagecontainer" class='${isself}'>
+        <div id="user" class="subtext">${user}</div>
+        <div id="mainmessage" class="maintext">${message}</div>
+        <div id="timecode" class="subtext">${timecode}</div>
+      </div>
+    </div>
+    `
+
+    addtomessages(messagehtml)
+  }
+
 })
 
 function handleKeyPress(event) {
@@ -81,4 +112,8 @@ function leaveroom(room) {
 
 window.onbeforeunload = function(){
   leaveroom(currentroom)
+}
+
+function addtomessages(message) {
+  document.getElementById('chatwindow').innerHTML += message
 }

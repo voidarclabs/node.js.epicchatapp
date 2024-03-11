@@ -3,6 +3,7 @@ body {
     margin: 0px;
     min-height: 100vh;
     background-color: #36263b;
+    font-family: Varela Round;
 }
 
 #maincontainer {
@@ -21,6 +22,42 @@ body {
     background-color: rgb(92, 0, 121);
     width: 100%;
     height: 60px;
+    display: grid;
+    grid-template-columns: 60px 60px 60px auto 60px;
+}
+
+.option {
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+    border-radius: 7px;
+    transition-duration: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+i {
+    transition: all 0.1s;
+}
+
+.option:hover {
+    background-color: #ffffff8f;
+}
+
+#option-settings:hover .fa-gear {
+    transform: rotate(40deg);
+    font-size: 35px;
+}
+
+#option-settings {
+    grid-column: 5;
+}
+
+#option-remove:hover .fa-trash {
+    color: rgb(196, 0, 0);
+    font-size: 35px;
 }
 
 #mainchat {
@@ -30,8 +67,53 @@ body {
 
 #chatwindow {
     background-color: rgb(63, 0, 100);
+    display: block;
+    overflow: scroll;
 }
 
 #chatbox {
     background-color: rgb(70, 0, 128);
+}
+
+
+#messagecontainer {
+    margin: 7px;
+    background-color: rgb(148, 33, 255);
+    min-width: 250px;
+    display: inline-block;
+    max-width: 70%;
+    word-break: break-all;
+    padding: 5px;
+    border-radius: 7px;
+}
+
+.maintext {
+    color: #fff;
+    font-size: 23px;
+}
+
+.subtext {
+    color: #a0a0a0;
+    font-size: 15px;
+}
+
+#timecode {
+    float: right;
+}
+
+#messagecontainer.self {
+    margin: 7px;
+    background-color: rgb(182, 104, 255);
+    min-width: 250px;
+    display: inline-block;
+    max-width: 70%;
+    word-break: break-all;
+    padding: 5px;
+    border-radius: 7px;
+    justify-self: right;
+}
+
+#messageoverlapper {
+    width: 100%;
+    display: flex;
 }
