@@ -32,10 +32,8 @@
             <div id="chatwindow">
             </div>
             <div id="chatbox">
-                <form id="messageForm" onsubmit="handleSubmit(event)">
-                    <input type="text" id="messageTextbox" name="messageTextbox" required>
-                    <button type="submit">Submit</button>
-                  </form>
+                <input placeholder="Message..." autocomplete="one-time-code" type="text" name="" id="messageTextbox"></input>
+                <button onclick="handleSubmit()"><i class="fa-solid fa-gear"></i></button>
             </div>
         </div>
     </div>

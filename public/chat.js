@@ -48,12 +48,12 @@ socket.on('messageincoming', (data) => {
 
 })
 
-function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      document.getElementById('messageForm').submit();
-    }
+const textInput = document.getElementById('messageTextbox');
+textInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    handleSubmit()
   }
+});
 
 function sendMessage(room, id, message) {
   let messageinfo = [room, id, message]
@@ -62,19 +62,23 @@ function sendMessage(room, id, message) {
   })
 }
 
-function handleSubmit(event) {
-    event.preventDefault(); // Prevents the default form submission behavior
+function handleSubmit() {
 
     // Get the content of the textbox
     const textbox = document.getElementById('messageTextbox');
     const messageContent = textbox.value;
+    if (messageContent != '') {
+
+    
 
     // Call the sendMessage function with the content as a parameter
     sendMessage(currentroom, clientid, messageContent);
 
     // Clear the textbox
     textbox.value = '';
-  }
+  } else {
+    console.log('message empty')
+  }}
 
 function createroom(room) {
   socket.emit('createroom', room, (callback) => {
