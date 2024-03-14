@@ -10,23 +10,38 @@
     <title>epic chat app</title>
 </head>
 <body>
+    <div id="popupcontainer">
+        <div class="formcontainer" id="createformcontainer">
+            <div class="exitcreateformcontainer" onclick="makeroomoption('close')" id="formexit"><i class="fa-solid fa-xmark"></i></div>
+            <p class="formlargetext">Create Room</p>
+            <input class='createroomtext' placeholder="Room Name..." type="text" name="" id="forminput">
+            <button onclick="handlecreateroom()" id="formsubmit">Create</button>
+        </div>
+        <div class="formcontainer" id="joinformcontainer">
+            <div class="exitjoinformcontainer" onclick="joinroomoption('close')" id="formexit"><i class="fa-solid fa-xmark"></i></div>
+            <p class="formlargetext">Join Room</p>
+            <input class="joinroomtext" placeholder="Room Name..." type="text" name="" id="forminput">
+            <button onclick="handlejoinroom()" id="formsubmit">Join</button>
+        </div>
+    </div>
     <div id="maincontainer">
         <div id="sidebar">
             <div id="options">
-                <div id="option-add" class="option">
+                <div onclick="makeroomoption('open')" id="option-add" class="option">
                     <i class="fa-solid fa-plus"></i>
                 </div>
-                <div id="option-join" class="option">
+                <div onclick="joinroomoption('open')" id="option-join" class="option">
                     <i class="fa-solid fa-link"></i>
                 </div>
-                <div id="option-remove" class="option">
+                <div onclick="exitroomoption()" id="option-remove" class="option">
                     <i class="fa-solid fa-trash"></i>
                 </div>
                 <div id="option-settings" class="option">
                     <i class="fa-solid fa-gear"></i>
                 </div>
             </div>
-            <div id="chats"></div>
+            <div id="chats">
+            </div>
         </div>
         <div id="mainchat">
             <div id="chatwindow">

@@ -97,6 +97,16 @@ function joinroom(room) {
     if (status = 'added') {
       currentroom = room
       console.log(currentroom)
+      if (document.getElementById(`chat${room}`)) {
+
+      } else {
+        let newroomoption = `
+        <div onclick="switchroom('${room}')" class="chatidcontainer">
+          <div id="chat${room}">${room}</div>
+        </div>
+        `
+        document.getElementById('chats').innerHTML += newroomoption
+    }
       return currentroom
     }
     if (status = 'in room') {
@@ -114,10 +124,45 @@ function leaveroom(room) {
   })
 }
 
+function switchroom(room) {
+  if (room == currentroom) {
+    console.log(currentroom)
+  } else {
+    leaveroom(currentroom)
+    joinroom(room)
+    document.getElementById('chatwindow').innerHTML = ''
+  }
+}
+
 window.onbeforeunload = function(){
   leaveroom(currentroom)
 }
 
 function addtomessages(message) {
   document.getElementById('chatwindow').innerHTML += message
+}
+
+function makeroomoption(state) {
+  let popup = document.getElementById('popupcontainer')
+  let popupwindow = document.getElementById('createformcontainer')
+
+  popup.classList.toggle('active')
+  popupwindow.classList.toggle('active')
+}
+
+function joinroomoption() {
+  let popup = document.getElementById('popupcontainer')
+  let popupwindow = document.getElementById('joinformcontainer')
+
+  popup.classList.toggle('active')
+  popupwindow.classList.toggle('active')
+}
+
+function handlecreateroom() {
+  let createroominput = document.getElementsByClassName('createroomtext')
+
+  let roomname = createroominput[0].value
+
+  createroom(roomname)
+  document.getElementsByClassName('exitcreateformcontainer')[0].click()
 }

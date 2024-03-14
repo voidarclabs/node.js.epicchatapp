@@ -154,3 +154,105 @@ i {
     width: 100%;
     display: flex;
 }
+
+#popupcontainer {
+    background-color: #0000008a;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    visibility: hidden;
+    z-index: 10;
+    transition: all 0.3s;
+    opacity: 0;
+    display: flex;
+}
+
+
+
+.formcontainer {
+    position: absolute;
+    height: 400px;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    background-color: #a0a0a08a;
+    border: 2px solid #a0a0a0;
+    backdrop-filter: blur(25px);
+    box-shadow: 5px 5px 5px #18181885;
+    visibility: hidden;
+    border-radius: 10px;
+    transition: 0.5s all;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.formcontainer.active {
+    opacity: 1;
+    visibility: visible;
+}
+#popupcontainer.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#forminput {
+    height: 50px;
+    width: calc(100% - 40px);
+    border-radius: 10px;
+    opacity: 1;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 120px;
+}
+
+.formlargetext {
+    position: fixed;
+    top: 0;
+    margin-top: calc(1em + 65px);
+    font-size: 30px;
+    opacity: 1;
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+#formsubmit {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 70px;
+    height: 40px;
+    width: 130px;
+    border: none;
+    border-radius: 40px;
+    background-color: #ca1bffa4;
+    color: white;
+    font-size: 20px;
+}
+
+#formexit {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin-right: -15px;
+    margin-top: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    height: 30px;
+    background-color: #ca1bff;
+}
+
+.chatidcontainer {
+    background-color: #ca1bff;
+    width: 100%;
+    height: 30px;
+    font-size: 25px;
+}
