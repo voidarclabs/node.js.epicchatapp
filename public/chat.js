@@ -1,7 +1,7 @@
 const socket = io()
 
 var clientid
-
+var currentroom
 
 
 socket.on('handshake', (clientidrecieved, callback) => {
@@ -83,10 +83,10 @@ function handleSubmit() {
 function createroom(room) {
   socket.emit('createroom', room, (callback) => {
     console.log(callback.status)
-    joinroom(room)
+    switchroom(room)
   })
 }
-var currentroom;
+
 function joinroom(room) {
   let roominfo = [clientid, room]
 
@@ -101,8 +101,9 @@ function joinroom(room) {
 
       } else {
         let newroomoption = `
-        <div onclick="switchroom('${room}')" class="chatidcontainer">
+        <div onclick="switchroom('${room}')" id="${room}-roomoption" class="chatidcontainer">
           <div id="chat${room}">${room}</div>
+          <div id='leaveroom${room}' onclick='handleleaveroom('${room}')'>leave</div>
         </div>
         `
         document.getElementById('chats').innerHTML += newroomoption
@@ -165,4 +166,23 @@ function handlecreateroom() {
 
   createroom(roomname)
   document.getElementsByClassName('exitcreateformcontainer')[0].click()
+}
+
+function handlejoinroom() {
+  let joinroominput = document.getElementsByClassName('joinroomtext')
+
+  let roomname = joinroominput[0].value
+
+  joinroom(roomname)
+  document.getElementsByClassName('exitjoinformcontainer')[0].click()
+}
+
+function handleleaveroom(room) {
+  let roomcontainer = document.getElementById()
+}
+
+function exitroomoption(room) {
+  socket.emit('deleteroom', room, (callback) => {
+    document.getElementById(`${room}-roomoption`).remove()
+  })
 }

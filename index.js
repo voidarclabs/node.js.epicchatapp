@@ -2,7 +2,38 @@ const express = require('express');
 const socketio = require('socket.io');
 const path = require('path');
 const fs = require('fs');
+const mysql = require('mysql');
+const { compileFunction } = require('vm');
 
+var rooms = {}
+var defaultrooms = {}
+
+var con = mysql.createConnection({
+    host: "localhost",
+    port: "3306",
+    user: "root",
+    password: "toor",
+    database: "chatapp"
+});
+
+con.connect(function(err) {
+	if (err) throw err
+    console.log('db connected')
+});
+
+con.query("SELECT * FROM rooms", function (err, result, fields){
+    if (err) throw err;
+    console.log(result[0])
+    result.forEach(element => {
+        rooms[element.roomname] = []
+        if (element.default == 1) {
+            defaultrooms[element.roomname] = []
+        }
+    });
+    console.log(rooms)
+    console.log(defaultrooms)
+    // make default rooms show upon connection
+})
 
 const app = express();
 
@@ -22,7 +53,7 @@ const server = app.listen(3000, () => {
     console.log('Server running!')
 });
 
-var rooms = {}
+
 
 const io = socketio(server);
 
@@ -35,6 +66,24 @@ io.on('connection', (socket) => {
                 callback({status: 'exists'})
             } else {
             rooms[data] = []
+            con.query(`INSERT INTO rooms VALUES (null, '${data}', '0')`, function (err, results, fields){
+                if (err) throw err;
+                con.query("SELECT * FROM rooms", function (err, result, fields){
+                    if (err) throw err;
+                    result.forEach(element => {
+                        console.log(element)
+                    });    
+                })
+            })
+            con.query(`CREATE TABLE ${data} (
+                sender VARCHAR(20), 
+                content VARCHAR(2048), 
+                reply TINYINT(1), 
+                replycontent VARCHAR(2048), 
+                timecode TIME(6));`, 
+                function (err, results, fields){
+                if (err) throw err;
+            })
             console.log(rooms)
             callback({status: 'created'})
         }})
@@ -61,6 +110,12 @@ io.on('connection', (socket) => {
             let id = data[1]
             removefromroom(room, id)
             callback({status: 'removed'})
+        })
+
+        socket.on('deleteroom', (data, callback) => {
+            removefromroom(data, socket.id)
+            deleteroom(data)
+            callback()
         })
 
         socket.on('message', (data, callback) => {
@@ -101,6 +156,17 @@ function removefromroom(room, id) {
     }} catch {
         console.log('error')
     }
+}
+
+function deleteroom(roomtodelete) {
+    delete rooms.roomtodelete
+    con.query(`DROP TABLE ${roomtodelete}`, function (err, results, fields) {
+        if (err) throw err;
+    })
+    con.query(`DELETE FROM rooms WHERE roomname='${roomtodelete}'`, function (err, results, fields) {
+        if (err) throw err;
+    })
+    console.log(rooms)
 }
 
 // SELECT * FROM
