@@ -2,7 +2,7 @@ const socket = io()
 
 var clientid
 var currentroom
-
+var sending
 
 socket.on('handshake', (clientidrecieved, callback) => {
     clientid = clientidrecieved
@@ -57,9 +57,12 @@ textInput.addEventListener('keydown', (event) => {
 
 function sendMessage(room, id, message) {
   let messageinfo = [room, id, message]
+  if (sending == 1) {
   socket.emit('message', messageinfo, (callback) => {
     console.log('message recieved')
-  })
+  })} else {
+    console.log('not in room')
+  }
 }
 
 function handleSubmit() {
@@ -97,6 +100,7 @@ function joinroom(room) {
     if (status = 'added') {
       currentroom = room
       console.log(currentroom)
+      sending = 1;
       if (document.getElementById(`chat${room}`)) {
 
       } else {
@@ -113,6 +117,7 @@ function joinroom(room) {
     if (status = 'in room') {
       }
     if (status = 'not found') {
+      sending = 0;
     }
   })
 }
@@ -121,6 +126,7 @@ function leaveroom(room) {
   let roominfo = [room, clientid]
   socket.emit('leaveroom', roominfo ,(callback) => {
     currentroom = undefined;
+    sending = 0;
     return currentroom
   })
 }
@@ -185,4 +191,5 @@ function exitroomoption(room) {
   socket.emit('deleteroom', room, (callback) => {
     document.getElementById(`${room}-roomoption`).remove()
   })
+  leaveroom(currentroom)
 }
