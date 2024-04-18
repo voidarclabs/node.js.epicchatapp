@@ -21,6 +21,11 @@ con.connect(function(err) {
     console.log("db connected")
 });
 
+con.query(`SHOW TABLES`, function (err, result, feilds) {
+    if (err) throw err;
+    console.log(result)
+})
+
 con.query("SELECT * FROM rooms", function (err, result, fields){
     if (err) throw err;
     console.log(result[0])
@@ -53,7 +58,13 @@ const server = app.listen(3000, () => {
     console.log("Server running!")
 });
 
-
+function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  }
 
 const io = socketio(server);
 
@@ -75,16 +86,20 @@ io.on("connection", (socket) => {
                         console.log(element)
                     });    
                 })
+                con.query(`SHOW TABLES`, function (err, result, feilds) {
+                    if (err) throw err;
+                    console.log(result)
+                })
             })
             con.query(`CREATE TABLE IF NOT EXISTS ${data} (
                 id INT AUTO_INCREMENT,
-                sender VARCHAR(20), 
-                content VARCHAR(2048), 
-                reply TINYINT(1), 
-                replycontent VARCHAR(2048), 
-                timecode TIME(6),
+                sender VARCHAR(20),
+                content VARCHAR(2048),
+                reply TINYINT(1),
+                replycontent VARCHAR(2048),
+                timecode VARCHAR(8),
                 PRIMARY KEY (id)
-            );`, 
+            );`,
                 function (err, results, fields){
                 if (err) throw err;
             })
@@ -113,6 +128,7 @@ io.on("connection", (socket) => {
             let room = data[0]
             let id = data[1]
             removefromroom(room, id)
+            console.log('removed')
             callback({status: "removed"})
         })
 
@@ -130,7 +146,7 @@ io.on("connection", (socket) => {
             console.log(`sending to room ${data[0]} from ${data[1]}: ${data[2]}`)
             callback()
             sendMessage(messageroom, messagebundle)
-            con.query(`INSERT INTO ${messageroom} (sender, content) VALUES ("${messagesender}", "${messagecontent}")`, function (err, results, fields) {
+            con.query(`INSERT INTO ${messageroom} (sender, content, timecode) VALUES ("${messagesender}", "${messagecontent}", "${getCurrentTime()}")`, function (err, results, fields) {
                 if (err) throw err;
                 con.query(`SELECT * FROM
                 (
@@ -181,6 +197,7 @@ function deleteroom(roomtodelete) {
     con.query(`DELETE FROM rooms WHERE roomname="${roomtodelete}"`, function (err, results, fields) {
         if (err) throw err;
     })
+    console.log(`deleted room ${roomtodelete}`)
     console.log(rooms)
     return rooms
 }

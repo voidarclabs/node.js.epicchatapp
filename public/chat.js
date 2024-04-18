@@ -127,6 +127,7 @@ function leaveroom(room) {
   socket.emit('leaveroom', roominfo ,(callback) => {
     currentroom = undefined;
     sending = 0;
+    console.log('left room')
     return currentroom
   })
 }
